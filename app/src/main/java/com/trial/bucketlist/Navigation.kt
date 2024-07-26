@@ -29,12 +29,14 @@ fun Navigation(viewModel: WishViewModel = viewModel(),
                 }
             )
         ){
-            val id = if(it.arguments != null) it.arguments!!.getLong("id") else 0L
-            AddEditDetailView(
-                id =id,
-                viewModel = viewModel,
-                navController = navController
-            )
+            val id = if(it.arguments != null) it.arguments!!.getString("id") else ""
+            if (id != null) {
+                AddEditDetailView(
+                    id =id,
+                    viewModel = viewModel,
+                    navController = navController
+                )
+            }
         }
         composable("login"){
             LoginView(navController, viewModel) }

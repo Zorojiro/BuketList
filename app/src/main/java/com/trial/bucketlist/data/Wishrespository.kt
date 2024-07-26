@@ -8,23 +8,23 @@ class Wishrespository(private val NwishDao: NWishDao) {
 
 
 
-    suspend fun addWish(wish: NWish){
+     fun addWish(wish: NWish){
         NwishDao.addWishN(wish)
     }
 
     fun getWishes(): Flow<List<NWish>> {
-       return NwishDao.getAllWishesN()
+       return NwishDao.getWishesN()
     }
 
-    fun getWishById(id: Long): Flow<NWish> {
-        return NwishDao.getWishByIdN(id)
+    fun getWishById(id: String): Flow<NWish?> {
+        return NwishDao.getWishById(id)
     }
 
     suspend fun updateWish(wish: NWish){
-        NwishDao.updateWishN(wish)
+        NwishDao.updateWishByIdN(wish)
     }
 
-    suspend fun deleteWish(wish: NWish){
+     fun deleteWish(wish: NWish){
         NwishDao.deleteWishN(wish)
     }
 }

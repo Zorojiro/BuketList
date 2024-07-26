@@ -1,8 +1,6 @@
 package com.trial.bucketlist.data
 
 import android.content.Context
-import android.service.autofill.UserData
-import android.widget.Toast
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
@@ -16,8 +14,7 @@ import kotlinx.coroutines.withContext
 
 class NWishDao {
     fun addWishN(
-        userData : NWish,
-        context : Context
+        userData : NWish
     ) = CoroutineScope(Dispatchers.IO).launch{
 
         val firestoreRef = Firebase.firestore
@@ -25,12 +22,13 @@ class NWishDao {
             .document(userData.id)
 
         try{
-            firestoreRef.set(userData).addOnSuccessListener {
-                Toast.makeText(context, "Data saved successfully", Toast.LENGTH_SHORT).show()
-            }
+            firestoreRef.set(userData)
+//                .addOnSuccessListener {
+//                Toast.makeText(context, "Data saved successfully", Toast.LENGTH_SHORT).show()
+//            }
 
         } catch (e: Exception){
-            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -52,7 +50,7 @@ class NWishDao {
         }
     }
 
-    fun getWishById(id: String, context: Context): Flow<NWish?> = flow {
+    fun getWishById(id: String): Flow<NWish?> = flow {
         val firestore = Firebase.firestore
                                 .collection("user").document(id)
 
@@ -62,16 +60,16 @@ class NWishDao {
                 val wish = snapshot.toObject<NWish>()
                 emit(wish)
             } else {
-                Toast.makeText(context, "No User Data Found", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "No User Data Found", Toast.LENGTH_SHORT).show()
                 emit(null)
             }
         } catch (e: Exception) {
-            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             emit(null)
         }
     }
 
-    suspend fun updateWishByIdN(wish: NWish, context: Context) {
+    suspend fun updateWishByIdN(wish: NWish) {
         val firestore = Firebase.firestore
                                 .collection("user").document(wish.id)
 
@@ -81,15 +79,14 @@ class NWishDao {
                 firestore.update("title", wish.title).await()
                 firestore.update("description", wish.description).await()
             }
-            Toast.makeText(context, "Wish updated successfully", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "Wish updated successfully", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            Toast.makeText(context, "Error updating wish: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
+//            Toast.makeText(context, "Error updating wish: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
     }
 
     fun deleteWishN(
-        wish:NWish,
-        context : Context
+        wish:NWish
     ) = CoroutineScope(Dispatchers.IO).launch{
 
         val firestoreRef = Firebase.firestore
@@ -102,19 +99,19 @@ class NWishDao {
                     firestoreRef
                         .delete()
                         .addOnSuccessListener {
-                            Toast.makeText(
-                                context,
-                                "Data Successfully Deleted",
-                                Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(
+//                                context,
+//                                "Data Successfully Deleted",
+//                                Toast.LENGTH_SHORT).show()
                         }
                 }
                 else{
-                    Toast.makeText(context, "No User Data Found", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(context, "No User Data Found", Toast.LENGTH_SHORT).show()
                 }
             }
 
         } catch (e: Exception){
-            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
     }
 }

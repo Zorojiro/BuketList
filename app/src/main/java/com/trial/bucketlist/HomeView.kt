@@ -36,7 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.trial.bucketlist.data.Wish
+import com.trial.bucketlist.data.NWish
 
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
@@ -131,7 +131,7 @@ fun HomeView(
 }
 
 @Composable
-fun WishItem(wish: Wish, onClick: () -> Unit) {
+fun WishItem(wish: NWish, onClick: () -> Unit) {
     Card (
         modifier = Modifier
             .fillMaxWidth()

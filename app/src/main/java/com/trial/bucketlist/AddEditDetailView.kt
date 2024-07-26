@@ -33,12 +33,13 @@ import androidx.navigation.NavController
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.trial.bucketlist.data.NWish
 import com.trial.bucketlist.data.Wish
 import kotlinx.coroutines.launch
 
 @Composable
 fun AddEditDetailView(
-    id: Long,
+    id: String,
     viewModel: WishViewModel,
     navController: NavController
 ){
@@ -50,10 +51,10 @@ fun AddEditDetailView(
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
-    if( id != 0L){
-        val wish = viewModel.getWishById(id).collectAsState(initial = Wish(0L, "", ""))
-        viewModel.wishTitleState = wish.value.title
-        viewModel.wishDescriptionState = wish.value.description
+    if( id != ""){
+        val wish = viewModel.getWishById(id).collectAsState(initial = NWish("", "", ""))
+        viewModel.wishTitleState = wish.value?.title ?: ""
+        viewModel.wishDescriptionState = wish.value?.description ?: ""
     }
     else{
         viewModel.wishTitleState = ""
@@ -65,7 +66,7 @@ fun AddEditDetailView(
         topBar = {
             AppBarView(
                 title = 
-                    if(id != 0L) stringResource(id = R.string.update_wish)
+                    if(id != "") stringResource(id = R.string.update_wish)
                     else stringResource(id = R.string.add_wish),
                 onBackNavClicked = {navController.navigateUp()},
                 wishViewModel = viewModel
@@ -96,9 +97,9 @@ fun AddEditDetailView(
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
                 if(viewModel.wishTitleState.isNotEmpty() && viewModel.wishDescriptionState.isNotEmpty()){
-                    if(id != 0L){
+                    if(id != ""){
                         viewModel.updateWish(
-                            Wish(
+                            NWish(
                                 id = id,
                                 title = viewModel.wishTitleState.trim(),
                                 description = viewModel.wishDescriptionState.trim()
@@ -111,7 +112,7 @@ fun AddEditDetailView(
                     }
                     else{
                         viewModel.addWish(
-                            Wish(
+                            NWish(
                                 title = viewModel.wishTitleState.trim(),
                                 description = viewModel.wishDescriptionState.trim()
                             )
@@ -131,7 +132,7 @@ fun AddEditDetailView(
             }
             ) {
                 Text(
-                    text = if (id != 0L) stringResource(id = R.string.update_wish)
+                    text = if (id != "") stringResource(id = R.string.update_wish)
                     else stringResource(id = R.string.add_wish),
 
                     style = TextStyle(

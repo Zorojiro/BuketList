@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.trial.bucketlist.data.NWish
 import com.trial.bucketlist.data.Wish
 import com.trial.bucketlist.data.Wishrespository
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 
-class WishViewModel(private val wishRepository: Wishrespository = Graph.wishRepository ): ViewModel()
+class WishViewModel(private val wishRepository: Wishrespository ): ViewModel()
 {
     var wishTitleState by  mutableStateOf("")
     var wishDescriptionState by mutableStateOf("")
@@ -40,27 +41,27 @@ class WishViewModel(private val wishRepository: Wishrespository = Graph.wishRepo
         wishDescriptionState = newString
     }
 
-    lateinit var getAllWishes: Flow<List<Wish>>
+    lateinit var getAllWishes: Flow<List<NWish>>
 
 
 
-    fun addWish(wish:Wish){
+    fun addWish(wish:NWish){
         viewModelScope.launch(Dispatchers.IO) {
             wishRepository.addWish(wish)
         }
     }
 
-    fun updateWish(wish:Wish){
+    fun updateWish(wish:NWish){
         viewModelScope.launch(Dispatchers.IO) {
             wishRepository.updateWish(wish)
         }
     }
 
-    fun getWishById(id: Long): Flow<Wish>{
+    fun getWishById(id: String): Flow<NWish?>{
         return wishRepository.getWishById(id)
     }
 
-    fun deleteWish(wish: Wish){
+    fun deleteWish(wish: NWish){
         viewModelScope.launch (Dispatchers.IO){
             wishRepository.deleteWish(wish)
         }

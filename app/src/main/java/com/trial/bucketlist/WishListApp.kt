@@ -1,10 +1,10 @@
-package com.trial.bucketlist
-
-import android.app.Application
-
-class WishListApp: Application() {
-    override fun onCreate(){
-        super.onCreate()
-        Graph.provide(this)
-    }
-}
+//package com.trial.bucketlist
+//
+//import android.app.Application
+//
+//class WishListApp: Application() {
+//    override fun onCreate(){
+//        super.onCreate()
+//        Graph.provide(this)
+//    }
+//}
